@@ -7,23 +7,27 @@ var bulletPositionX;
 var bulletPositionY;
 
 var count = 0;
-
+var playerAlive = true;
 function playerSprite(args) {
     this.image = new Image();
     this.image.src = args.imgSrc;
-    this.x = args.x;
-    this.y = args.y;
+    this.x = px;
+    this.y = py;
     this.imgFrames = args.frames || 1;
     this.frame = 0;
+
     // Draw the sprite to the screen
     this.Draw = function() {
-        ctx.globalAlpha = 1;
-        var x = px;
-        var y = py;
-        ctx.drawImage(this.image, this.frame, 0, args.spw,
-            args.spw, x, y, args.spw, args.spw);
-        this.frame += PLAYER_CHAR_WIDTH;
-        if( this.frame >= this.image.width ) this.frame = 0;
+        if(playerAlive) {
+            ctx.globalAlpha = 1;
+            var x = px;
+            var y = py;
+
+            ctx.drawImage(this.image, this.frame, 0, args.spw,
+                args.spw, x, y, args.spw, args.spw);
+            this.frame += PLAYER_CHAR_WIDTH;
+            if (this.frame >= this.image.width) this.frame = 0;
+        }
     };
 };
 
@@ -64,7 +68,7 @@ function inBounds(r){
 
 function updateBullets(){
     for(var i = 0; i < playerBullets.length; i++){
-        if(inBounds(playerBullets[i])){
+        if(playerBullets[i].isVisible && inBounds(playerBullets[i])){
             playerBullets[i].isVisible = true;
             playerBullets[i].yVal += playerBullets[i].dy;
         }
@@ -83,7 +87,6 @@ function drawBullets(ctx){
             ctx.fillRect(rec.xVal + rec.dx, rec.yVal + rec.dy, rec.w, rec.h);
             //console.log(ctx.fill());
             //playerBullets.pop();
-            console.log("Drawing..");
         }
     }
 }
