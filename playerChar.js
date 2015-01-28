@@ -85,8 +85,6 @@ function drawBullets(ctx){
             var rec = playerBullets[i];
             ctx.fillStyle = rec.fill;
             ctx.fillRect(rec.xVal + rec.dx, rec.yVal + rec.dy, rec.w, rec.h);
-            //console.log(ctx.fill());
-            //playerBullets.pop();
         }
     }
 }
