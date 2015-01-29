@@ -1,7 +1,7 @@
 /**
  * Created by Phillip McIntyre on 1/28/2015.
  */
-function addEnemy (a, b, da, db){
+function addEnemy (a, b, da, db, id){
     var enemy = {
         imgSrc: E1_PATH_CHAR,
         width: E1_CHAR_WIDTH,
@@ -10,6 +10,7 @@ function addEnemy (a, b, da, db){
         y: b,
         dx: da,
         dy: db,
+        id: id,
         alive: true,
         passed: false
     };
@@ -19,7 +20,7 @@ function addEnemy (a, b, da, db){
 
 function enemyInBounds(r) {
 
-    if (r.x >= 0 && r.x + E1_CHAR_WIDTH <= STAGE_WIDTH && r.y >= 0 && r.y + E1_CHAR_HEIGHT <= STAGE_HEIGHT)
+    if (r.x >= 0 && r.x + E1_CHAR_WIDTH <= STAGE_WIDTH)
         return true;
     else
         return false;
@@ -33,16 +34,19 @@ function updateEnemies () {
 
             b.alive = true;
 
-            if (b.x > STAGE_WIDTH || b.x - b.dx < 0)
-                b.dx = -b.dx;
+            if (!enemyInBounds(b) && (b.x + b.dx > STAGE_WIDTH || b.x - b.dx < 0))
+                b.dx = 2 * -b.dx;
 
             b.y += b.dy;
             b.x += b.dx;
 
-            b.dx = 3 * Math.sin(spawn_id * Math.PI/6);
+            b.dx = 3 * Math.sin(b.id * Math.PI/64);
+
+            b.id++;
 
             if (b.y > STAGE_HEIGHT) {
                 b.passed = true;
+                b.alive = false;
                 numEnemiesPass++;
             }
         }

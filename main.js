@@ -3,7 +3,7 @@ var atMainMenu;
 var atGameOver;
 var titleMusic;
 var battleMusic;
-
+var gameOverMusic;
 //Game Variables
 var gameloop;
 
@@ -30,7 +30,7 @@ var ticks;
 var enemySprites;
 var numEnemiesKilled;
 var numEnemiesPass;
-var numEnemiesReq;
+var numEnemiesReq = 20;
 var diff;
 var sDiff;
 var boom;
@@ -48,10 +48,20 @@ function preloader(){
     titleMusic.volume = 0.6;
     battleMusic = new Audio("music/KingdomHeartsII_PassionSanctuaryBattle.mp3");
     battleMusic.volume = 0.6;
+    gameOverMusic = new Audio("music/FinalFantasyX_ToZanarkand.mp3");
+    gameOverMusic.volume = 0.6;
     pewpew = new Audio("music/pewpew.wav");
     pewpew.volume = 0.15;
     boom = new Audio("music/Explosion.wav");
     boom.volume = 0.15;
+
+    titleMusic.pause();
+    titleMusic.currentTime = 0;
+    battleMusic.pause();
+    battleMusic.currentTime = 0;
+    gameOverMusic.pause();
+    gameOverMusic.currentTime = 0;
+
 
     x = PLAYER_START_X;
     y = PLAYER_START_Y;
@@ -139,7 +149,11 @@ function main(){
 function update(){
 
     if(atMainMenu){
-
+        window.removeEventListener('keydown', gameOverPress, true);
+        gameOverMusic.pause();
+        gameOverMusic.currentTime = 0;
+        battleMusic.pause();
+        battleMusic.currentTime = 0;
         titleMusic.play();
         parallax.Draw(ctx);
         mainMenuDraw(ctx);
@@ -149,12 +163,17 @@ function update(){
         titleMusic.currentTime = 0;
         battleMusic.pause();
         battleMusic.currentTime = 0;
+        gameOverMusic.play();
         window.addEventListener('keydown', gameOverPress, true);
         drawGameOver(ctx);
 
     }
     else {
+      //  gameOverMusic.pause();
+      //  gameOverMusic.currentTime = 0;
         titleMusic.pause();
+        titleMusic.currentTime = 0;
+
         battleMusic.play();
         window.removeEventListener('keydown', menuPress, true);
         window.removeEventListener('keydown', gameOverPress, true);
@@ -175,8 +194,12 @@ function update(){
         drawEnemies(ctx);
         handleCollisions();
 
-        if(numEnemiesPass >= numEnemiesReq)
+        //main.numEnemiesReq = 20;
+
+        if(numEnemiesPass > numEnemiesReq){
             atGameOver = true;
+        }
+
     }
 
 }
@@ -187,7 +210,9 @@ function drawHUD(ctx, numHit, bulletsShot){
     ctx.font = '10px monospace';
     ctx.fillText("Number of Enemies Hit: " + numHit, 10, 25, STAGE_WIDTH / 2);
     ctx.fillText("Bullets Fired: " + bulletsShot, 10, STAGE_HEIGHT - 25, STAGE_WIDTH / 2);
-    ctx.fillText("Number of Enemies Missed: " + numEnemiesPass, STAGE_WIDTH/2, 25, STAGE_WIDTH);
+    ctx.fillText("Number of Enemies Missed: " + numEnemiesPass, STAGE_WIDTH/2 + 25, 25, STAGE_WIDTH);
+    ctx.fillText("Number of Enemies Required: " + numEnemiesReq, STAGE_WIDTH/2 + 25, 50, STAGE_WIDTH);
+
 }
 
 function handleCollisions() {
@@ -195,7 +220,10 @@ function handleCollisions() {
         var e = enemySprites[i];
         for (var j = 0; j < playerBullets.length; j++) {
             var p = playerBullets[j];
-            if (px < e.x + e.width && px + PLAYER_CHAR_WIDTH > e.x && py < e.y + e.height && py + PLAYER_CHAR_HEIGHT > e.y) {
+            if (e.x < px + PLAYER_CHAR_WIDTH &&
+                e.x + e.width > px &&
+                e.y < py + PLAYER_CHAR_HEIGHT &&
+                e.y + e.height > py && e.alive && !e.passed) {
                 playerAlive = false;
                 //console.log("player hit");
                 boom.play();
@@ -212,7 +240,7 @@ function handleCollisions() {
                     boom.play();
                     boom.currentTime = 0;
                     numEnemiesKilled++;
-                    diff += 0.1;
+                    diff += 0.2;
                     if(numEnemiesKilled % 15 === 0) {
                         if(sDiff > 0)
                             sDiff -= 5;
@@ -228,6 +256,8 @@ function handleCollisions() {
 function menuPress(e){
     if(e.keyCode) {
         atMainMenu = false;
+        titleMusic.pause();
+        titleMusic.currentTime = 0;
         main();
     }
 }
@@ -235,6 +265,8 @@ function menuPress(e){
 function gameOverPress(e){
     if(e.keyCode === 13){ //enter
         atGameOver = false;
+        gameOverMusic.pause();
+        gameOverMusic.currentTime = 0;
         preloader();
     }
 }
@@ -312,7 +344,7 @@ function drawGameOver(ctx){
     ctx.fillStyle = "grey";
     ctx.fillRect(0, 0, STAGE_HEIGHT, STAGE_WIDTH);
     var centerY = STAGE_HEIGHT / 2;
-    ctx.font = '50px sans-serif';
+    ctx.font = '40px sans-serif';
     ctx.fillStyle = 'red';
     centerText(ctx, "You killed " + numEnemiesKilled + " Enemies!", centerY);
     ctx.fillStyle = 'white';
