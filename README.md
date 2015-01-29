@@ -32,7 +32,7 @@ but use a function of sin(x) to evade attack.
 
 ## Run
 
-To run the game, one must open the "index.html" file in Chrome or Firefox. The
+To run the game, one must open the "index.html" file in Chrome/Chromium (currently, Firefox does not work). The
 player will be then prompted by the title screen to begin playing. After every
 defeat, the player will have the option of trying again.
 
@@ -57,3 +57,7 @@ variables
   * FinalFantasyX_ToZanarkand.mp3 - the Game Over music
   * pewpew.wav/.mp3 - sound effect for the main gun shooting
   * Explosion.wav - sound effect for destroyed ships
+
+## Version
+>1.0: Support for Chrome/Chromium only. Does not work in Firefox. IE is
+currently untested.
