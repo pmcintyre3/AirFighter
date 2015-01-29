@@ -38,22 +38,22 @@ defeat, the player will have the option of trying again.
 
 The additional files are as follows:
 * HTML
-..* index.html - main webpage
+  * index.html - main webpage
 * Javascript
-..* main.js - central file for running the game loop and instantiating important functions and
+  * main.js - central file for running the game loop and instantiating important functions and
 variables
-..* playerChar.js - responsible for most player-based construction
-..* enemyChar.js - responsible for enemy unit construction
-..* spawn.js - keeps track of enemy unit spawning coordinates and trajectories
-..* parallax.js - creates the scrolling background
-..* constants.js - keeps basic constants used throughout the other files
+  * playerChar.js - responsible for most player-based construction
+  * enemyChar.js - responsible for enemy unit construction
+  * spawn.js - keeps track of enemy unit spawning coordinates and trajectories
+  * parallax.js - creates the scrolling background
+  * constants.js - keeps basic constants used throughout the other files
 * Sprites
-..* PlayerShip.png - the player's ship model and spritesheet.
-..* EnemyShip1.png - the enemy's ship model and spritesheet.
-..* Clouds.png and ground.png - both files make up the parallax background
+  * PlayerShip.png - the player's ship model and spritesheet.
+  * EnemyShip1.png - the enemy's ship model and spritesheet.
+  * Clouds.png and ground.png - both files make up the parallax background
 * Music
-..* KingdomHeartsII_PassionSanctuary.mp3 - The title screen music
-..* KingdomHeartsII_PassionSanctuaryBattle.mp3 - the main game music
-..* FinalFantasyX_ToZanarkand.mp3 - the Game Over music
-..* pewpew.wav/.mp3 - sound effect for the main gun shooting
-..* Explosion.wav - sound effect for destroyed ships
+  * KingdomHeartsII_PassionSanctuary.mp3 - The title screen music
+  * KingdomHeartsII_PassionSanctuaryBattle.mp3 - the main game music
+  * FinalFantasyX_ToZanarkand.mp3 - the Game Over music
+  * pewpew.wav/.mp3 - sound effect for the main gun shooting
+  * Explosion.wav - sound effect for destroyed ships
