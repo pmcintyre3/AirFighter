@@ -59,5 +59,6 @@ variables
   * Explosion.wav - sound effect for destroyed ships
 
 ## Version
+>1.1: Now works for Firefox!
 >1.0: Support for Chrome/Chromium only. Does not work in Firefox. IE is
 currently untested.
